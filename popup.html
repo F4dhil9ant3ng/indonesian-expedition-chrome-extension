@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link href="styles/skeleton.css" rel="stylesheet">
     <link href="styles/main.css" rel="stylesheet">
+    <link href="styles/chosen.css" rel="stylesheet">
   </head>
   <body>
     <ul class="tab">
@@ -13,15 +14,20 @@
 
     <div id="cekTarif" class="tabcontent">
       <h3>Cek Tarif</h3>
-        <form>
+        <span id="loadingTarif">Fetching data. Please wait...</span>
+        <form method="POST" id="formTarif">
             <div class="row">
                 <div class="twelve columns">
                     <label for="exampleEmailInput">Kota Asal</label>
-                    <input class="u-full-width" type="text" placeholder="Ketik kota asal..." id="kotaAsal">
+                    <select id="source" style="width:100%;"></select>
                 </div>
                 <div class="twelve columns">
                     <label for="exampleEmailInput">Kota Tujuan</label>
-                    <input class="u-full-width" type="text" placeholder="Ketik kota tujuan..." id="kotaTujuan">
+                    <select id="destination" style="width:100%;"></select>
+                </div>
+                <div class="twelve columns">
+                    <label for="exampleEmailInput">Berat (dalam gram)</label>
+                    <input class="u-full-width" type="number" placeholder="Ketik berat dalam satuan gram..." id="weight">
                 </div>
             </div>
             <input class="button-primary u-full-width" type="submit" value="Submit">
@@ -41,7 +47,8 @@
         </form>
     </div>
     <script type="text/javascript" src="scripts/jquery.min.js"></script>
-    <script type="text/javascript" src="scripts/jquery.autocomplete.min.js"></script>`
+    <script type="text/javascript" src="scripts/jquery.autocomplete.min.js"></script>
+    <script type="text/javascript" src="scripts/chosen.jquery.js"></script>
     <script src="scripts/popup.js"></script>
   </body>
 </html>
