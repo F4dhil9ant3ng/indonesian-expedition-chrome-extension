@@ -41,20 +41,29 @@
             </div>
             <input class="button-primary u-full-width" type="submit" value="Submit">
         </form>
-        <table id="results" width="100%"></table>
+        <table id="ongkirResults" width="100%"></table>
     </div>
 
     <div id="cekResi" class="tabcontent">
       <h3>Cek Resi</h3>
-        <form>
+        <form method="GET" id="formResi">
             <div class="row">
                 <div class="twelve columns">
+                    <label for="exampleEmailInput">Ekspedisi</label>
+                    <select id="pengirim" style="width:100%;">
+                        <option value="jne">JNE</option>
+                        <option value="tiki">Tiki</option>
+                        <option value="pos">POS</option>
+                    </select>
+                </div>
+                <div class="twelve columns">
                     <label for="exampleEmailInput">Nomor Resi</label>
-                    <input class="u-full-width" type="text" placeholder="Ketik nomor resi..">
+                    <input class="u-full-width" type="text" id="resi" placeholder="Ketik nomor resi..">
                 </div>
             </div>
             <input class="button-primary u-full-width" type="submit" value="Submit">
         </form>
+        <table id="shipment" width="100%"></table>
     </div>
     <script type="text/javascript" src="scripts/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.autocomplete.min.js"></script>

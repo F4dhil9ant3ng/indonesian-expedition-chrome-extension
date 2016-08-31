@@ -11,6 +11,7 @@ $("#btnCekResi").click(function(){
 function showCekResi() {
     $("#cekResi").show();
     $("#cekTarif").hide();
+    $("#pengirim").chosen({});
 }
 
 function showCekTarif() {
@@ -76,8 +77,8 @@ $("#formTarif").submit(function(event) {
             }
             else if(status.code === 200){
                 $("#error").hide();
-                $("#results").html("");
-                $("#results").append("<tr><th>Service</th><th>Harga</th></tr>")
+                $("#ongkirResults").html("");
+                $("#ongkirResults").append("<tr><th>Service</th><th>Harga</th></tr>")
         
                 for(var i=0; i<results.length; i++){
                     var packages = results[i].costs;
@@ -87,13 +88,43 @@ $("#formTarif").submit(function(event) {
                         for(var k=0; k<costs.length; k++){
                             costToHtml += "<li>"+currencyFormat(costs[k].value)+"</li>";
                         }
-                        $("#results").append("<tr><td>"+packages[j].service+" ("+packages[j].description+")</td><td>"+costToHtml+"</td></tr>");
+                        $("#ongkirResults").append("<tr><td>"+packages[j].service+" ("+packages[j].description+")</td><td>"+costToHtml+"</td></tr>");
                     }
                 }
             }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
          alert("some error");
+        }
+    });
+
+    event.preventDefault();
+});
+
+$("#formResi").submit(function(event) {
+
+    var formData = {
+        'resi' : $("#resi").val(),
+        'pengirim' : $("#pengirim").val(),
+    };
+
+    var query = "";
+    for (key in formData) {
+        query += encodeURIComponent(key)+"="+encodeURIComponent(formData[key])+"&";
+    }
+
+    $.ajax({
+        url: "http://localhost/indonesian-expedition/rajaongkir-service/resi.php?"+query,
+        type: "GET",
+        crossDomain: true,
+        success: function(response) {
+            var data = response.data;
+            var detail = data.detail;
+            var history = data.riwayat;
+
+        },
+        error: function(){
+            alert('Cannot fetch resi data');
         }
     });
 
