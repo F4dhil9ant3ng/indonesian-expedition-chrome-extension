@@ -82,13 +82,19 @@ $("#formTarif").submit(function(event) {
         
                 for(var i=0; i<results.length; i++){
                     var packages = results[i].costs;
-                    for(var j=0; j<packages.length; j++){
-                        var costs = packages[j].cost;
-                        var costToHtml = "";
-                        for(var k=0; k<costs.length; k++){
-                            costToHtml += "<li>"+currencyFormat(costs[k].value)+"</li>";
+                    if(packages.length > 0){
+                        for(var j=0; j<packages.length; j++){
+                            var costs = packages[j].cost;
+                            var costToHtml = "";
+                            for(var k=0; k<costs.length; k++){
+                                costToHtml += "<li>"+currencyFormat(costs[k].value)+"</li>";
+                            }
+                            $("#ongkirResults").append("<tr><td>"+packages[j].service+" ("+packages[j].description+")</td><td>"+costToHtml+"</td></tr>");
                         }
-                        $("#ongkirResults").append("<tr><td>"+packages[j].service+" ("+packages[j].description+")</td><td>"+costToHtml+"</td></tr>");
+                    }
+                    else{
+                        $("#ongkirResults").html("");
+                        $("#ongkirResults").append("<tr><td colspan='2'>Tidak ada data</td></tr>");
                     }
                 }
             }
