@@ -19,22 +19,24 @@ function showCekTarif() {
 }
 
 function getCity() {
+    $("#error").hide();
     $("#formTarif").hide();
     $("#loadingTarif").show();
     $.ajax({
-        url: "http://localhost/rajaongkir-service/city.php",
+        url: "http://localhost/indonesian-expedition/rajaongkir-service/city.php",
         type: "GET",
         crossDomain: true,
         success: function(data) { 
              $.each(data.rajaongkir.results, function (index) {
-                 $('#source').append($("<option></option>").attr("value",data.rajaongkir.results[index].city_id).text(data.rajaongkir.results[index].city_name));
+                 $('#origin').append($("<option></option>").attr("value",data.rajaongkir.results[index].city_id).text(data.rajaongkir.results[index].city_name));
                  $('#destination').append($("<option></option>").attr("value",data.rajaongkir.results[index].city_id).text(data.rajaongkir.results[index].city_name));
              });
 
             $("#formTarif").show();
             $("#loadingTarif").hide();
-            $("#source").chosen({});
+            $("#origin").chosen({});
             $("#destination").chosen({});
+            $("#courier").chosen({});
         },
         error: function(){
             alert('Cannot fetch city data');
@@ -42,22 +44,57 @@ function getCity() {
     });
 }
 
+function currencyFormat(number){
+    return "Rp. "+number.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+}
+
 $("#formTarif").submit(function(event) {
 
     var formData = {
-        'source' : $("#source").val(),
+        'origin' : $("#origin").val(),
         'destination' : $("#destination").val(),
         'weight' : $("#weight").val(),
+        'courier' : $("#courier").val(),
     };
+
+    var query = "";
+    for (key in formData) {
+        query += encodeURIComponent(key)+"="+encodeURIComponent(formData[key])+"&";
+    }
 
     $.ajax({
         type: 'POST',
-        url: 'http://localhost/rajaongkir-service/cost.php',
-        data: encodeURIComponent(formData),
-        encode: true
-    })
-    .done(function(data) {
-        console.log(data);
+        url: 'http://localhost/indonesian-expedition/rajaongkir-service/cost.php',
+        data: query,
+        success: function(data){
+            var status = data.rajaongkir.status;
+            var results = data.rajaongkir.results;
+
+            if(status.code === 400){
+                $("#error").show();
+                $("#error").html(status.description)
+            }
+            else if(status.code === 200){
+                $("#error").hide();
+                $("#results").html("");
+                $("#results").append("<tr><th>Service</th><th>Harga</th></tr>")
+        
+                for(var i=0; i<results.length; i++){
+                    var packages = results[i].costs;
+                    for(var j=0; j<packages.length; j++){
+                        var costs = packages[j].cost;
+                        var costToHtml = "";
+                        for(var k=0; k<costs.length; k++){
+                            costToHtml += "<li>"+currencyFormat(costs[k].value)+"</li>";
+                        }
+                        $("#results").append("<tr><td>"+packages[j].service+" ("+packages[j].description+")</td><td>"+costToHtml+"</td></tr>");
+                    }
+                }
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+         alert("some error");
+        }
     });
 
     event.preventDefault();
