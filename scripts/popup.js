@@ -50,7 +50,7 @@ function currencyFormat(number){
 }
 
 $("#formTarif").submit(function(event) {
-
+    $("#loadingTarif").show();
     var formData = {
         'origin' : $("#origin").val(),
         'destination' : $("#destination").val(),
@@ -78,7 +78,7 @@ $("#formTarif").submit(function(event) {
             else if(status.code === 200){
                 $("#error").hide();
                 $("#ongkirResults").html("");
-                $("#ongkirResults").append("<tr><th>Service</th><th>Harga</th></tr>")
+                $("#ongkirResults").append("<tr><th>Service</th><th>Harga</th></tr>");
         
                 for(var i=0; i<results.length; i++){
                     var packages = results[i].costs;
@@ -92,9 +92,11 @@ $("#formTarif").submit(function(event) {
                     }
                 }
             }
+            $("#loadingTarif").hide();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-         alert("some error");
+            alert("some error");
+            $("#loadingTarif").hide();
         }
     });
 
@@ -102,7 +104,7 @@ $("#formTarif").submit(function(event) {
 });
 
 $("#formResi").submit(function(event) {
-
+    $("#loadingResi").show();
     var formData = {
         'resi' : $("#resi").val(),
         'pengirim' : $("#pengirim").val(),
@@ -118,13 +120,33 @@ $("#formResi").submit(function(event) {
         type: "GET",
         crossDomain: true,
         success: function(response) {
-            var data = response.data;
-            var detail = data.detail;
-            var history = data.riwayat;
-
+            if(response.status != 'error'){
+                var data = response.data;
+                var detail = data.detail;
+                var history = data.riwayat;
+                $("#shipmentResults").html("");
+        
+                $("#shipmentResults").append("<tr><td colspan='3' style='text-align:center; background-color:yellow;'>Detail</td></tr>");
+                $("#shipmentResults").append("<tr><td>Nomor Resi</td><td>:</td><td>"+detail.no_resi+"</td></tr>");
+                $("#shipmentResults").append("<tr><td>Status</td><td>:</td><td>"+detail.status+"</td></tr>");
+                $("#shipmentResults").append("<tr><td>Tanggal</td><td>:</td><td>"+detail.tanggal+"</td></tr>");
+                $("#shipmentResults").append("<tr><td>Asal</td><td>:</td><td>"+detail.asal.nama+" - "+detail.asal.alamat+"</td></tr>");
+                $("#shipmentResults").append("<tr><td>Tujuan</td><td>:</td><td>"+detail.tujuan.nama+" - "+detail.tujuan.alamat+"</td></tr>");
+        
+                $("#shipmentResults").append("<tr><td colspan='3' style='text-align:center; background-color:yellow;'>Riwayat</td></tr>");
+                for(var i=0; i<history.length; i++){
+                    $("#shipmentResults").append("<tr><td>"+history[i].tanggal+"</td><td>"+history[i].lokasi+"</td><td>"+history[i].keterangan+"</td></tr>");
+                }
+            }
+            else{
+                $("#shipmentResults").html("");
+                $("#shipmentResults").append("<tr><td>"+response.pesan+"</td></tr>");
+            }
+            $("#loadingResi").hide();
         },
         error: function(){
             alert('Cannot fetch resi data');
+            $("#loadingResi").hide();
         }
     });
 
