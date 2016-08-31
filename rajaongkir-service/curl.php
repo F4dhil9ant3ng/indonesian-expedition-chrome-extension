@@ -1,5 +1,6 @@
 <?php
-define("KEY","f5b38c7a0e7272989375aaf8b8eb2586");
+define("KEY_RAJAONGKIR","f5b38c7a0e7272989375aaf8b8eb2586");
+define("KEY_IBACOR","5a545e84a0d9b12bc6b71291b18c0f7a");
 
 function httpGet($url){
   $curl = curl_init();
@@ -13,7 +14,7 @@ function httpGet($url){
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => "GET",
     CURLOPT_HTTPHEADER => array(
-      "key:".KEY
+      "key:".KEY_RAJAONGKIR
     ),
   ));
 
@@ -43,7 +44,7 @@ function httpPost($url, $param){
     CURLOPT_POSTFIELDS => $param,
     CURLOPT_HTTPHEADER => array(
       "content-type: application/x-www-form-urlencoded",
-      "key:".KEY
+      "key:".KEY_RAJAONGKIR
     ),
   ));
 
