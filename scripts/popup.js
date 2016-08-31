@@ -11,6 +11,7 @@ $("#btnCekResi").click(function(){
 function showCekResi() {
     $("#cekResi").show();
     $("#cekTarif").hide();
+    $("#loadingResi").hide();
     $("#pengirim").chosen({});
 }
 
