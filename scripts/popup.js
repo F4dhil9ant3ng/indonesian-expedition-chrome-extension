@@ -25,7 +25,7 @@ function getCity() {
     $("#formTarif").hide();
     $("#loadingTarif").show();
     $.ajax({
-        url: "http://localhost/indonesian-expedition/rajaongkir-service/city.php",
+        url: "http://localhost/indonesian-expedition/php-service/city.php",
         type: "GET",
         crossDomain: true,
         success: function(data) { 
@@ -66,7 +66,7 @@ $("#formTarif").submit(function(event) {
 
     $.ajax({
         type: 'POST',
-        url: 'http://localhost/indonesian-expedition/rajaongkir-service/cost.php',
+        url: 'http://localhost/indonesian-expedition/php-service/cost.php',
         data: query,
         success: function(data){
             var status = data.rajaongkir.status;
@@ -123,7 +123,7 @@ $("#formResi").submit(function(event) {
     }
 
     $.ajax({
-        url: "http://localhost/indonesian-expedition/rajaongkir-service/resi.php?"+query,
+        url: "http://localhost/indonesian-expedition/php-service/resi.php?"+query,
         type: "GET",
         crossDomain: true,
         success: function(response) {
