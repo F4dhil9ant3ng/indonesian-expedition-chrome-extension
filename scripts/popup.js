@@ -1,4 +1,5 @@
 var dataCities = [];
+var host = "http://expedition.gedelumbung.com/";
 
 $("#btnCekTarif").click(function(){
     showCekTarif();
@@ -25,7 +26,7 @@ function getCity() {
     $("#formTarif").hide();
     $("#loadingTarif").show();
     $.ajax({
-        url: "http://localhost/indonesian-expedition/php-service/city.php",
+        url: host+"city.php",
         type: "GET",
         crossDomain: true,
         success: function(data) { 
@@ -66,7 +67,7 @@ $("#formTarif").submit(function(event) {
 
     $.ajax({
         type: 'POST',
-        url: 'http://localhost/indonesian-expedition/php-service/cost.php',
+        url: host+'cost.php',
         data: query,
         success: function(data){
             var status = data.rajaongkir.status;
@@ -123,7 +124,7 @@ $("#formResi").submit(function(event) {
     }
 
     $.ajax({
-        url: "http://localhost/indonesian-expedition/php-service/resi.php?"+query,
+        url: host+"resi.php?"+query,
         type: "GET",
         crossDomain: true,
         success: function(response) {
