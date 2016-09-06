@@ -1,6 +1,6 @@
 <?php
 define("KEY_RAJAONGKIR","f5b38c7a0e7272989375aaf8b8eb2586");
-define("KEY_IBACOR","5a545e84a0d9b12bc6b71291b18c0f7a");
+define("KEY_IBACOR","e462295941fead1cd317a0729657ee7b");
 
 function httpGet($url){
   $curl = curl_init();
